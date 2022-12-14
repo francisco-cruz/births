@@ -1,13 +1,11 @@
 import moment from "moment";
 
-const input = document.getElementById("input-birth") as HTMLInputElement;
-const formControl = input.parentElement!;
-const small = formControl.getElementsByTagName("h4")[0] as HTMLHeadElement;
 
-export const validateBirth = (input, inputValue) => {
-    const yaerBirth = moment(inputValue).format("YYYY");
-    const age = moment().format("YYYY") - yaerBirth;
-    const isNotLegalAge = age < ageLegalValue;
+export const validateBirth = (input:HTMLInputElement, inputValue:String, legalAgeValue:Number ) => {
+  const yaerBirth = moment(inputValue).format("YYYY");
+  const age = moment().format("YYYY") - yaerBirth;
+
+    const isNotLegalAge = age < legalAgeValue;
     const day = moment(inputValue).format("DD");
     const month = moment(inputValue).format("MM");
     const valideYaer = isValideYaer(yaerBirth);

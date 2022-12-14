@@ -22,11 +22,11 @@ export default function InputBirth({ size, borderRadius, disabled, legalAge, ...
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      validateBirth(input, input.value)
+      validateBirth(input, input.value, ageLegalValue)
     });
 
   }
-  
+
   useEffect(() => {
     init();
   }, []);
