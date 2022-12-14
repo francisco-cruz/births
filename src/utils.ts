@@ -1,23 +1,11 @@
 import moment from "moment";
 
-
 export const validateBirth = (input: HTMLInputElement, inputValue: string, legalAgeValue: string) => {
     const day = moment(inputValue).format("DD");
     const month = moment(inputValue).format("MM");
-    const yearBirth = Number(moment(inputValue).format("YYYYMMDD"));
-    const yearCurrent =  Number(moment().format("YYYYMMDD"));
-    const diffTime = Math.abs(yearBirth - yearCurrent);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    console.log(diffTime + " milliseconds");
-    console.log(diffDays + " days");
-
-    const age = moment(`${inputValue}`, "YYYYMMDD").fromNow();
-    const isNotLegalAge = Number(age) < Number(legalAgeValue);
-    console.log(inputValue);
-
-    console.log(age);
-    console.log(isNotLegalAge);
-
+    const yearBirth = Number(moment(inputValue).format("YYYY"));
+    const age : number = getAge(inputValue)
+    const isNotLegalAge = age < Number(legalAgeValue);
 
     const validYear = Boolean(isValidYear(yearBirth));
     const validDate = Boolean(isValidDate(day, month, yearBirth));
@@ -26,7 +14,6 @@ export const validateBirth = (input: HTMLInputElement, inputValue: string, legal
     if (inputValue == "") {
         errorValidation(input, "Fill in this field.");
         console.log("Fill in this field");
-
         return false;
     }
 
@@ -36,7 +23,7 @@ export const validateBirth = (input: HTMLInputElement, inputValue: string, legal
         return false;
     }
 
-    if (legalAgeValue !== "" && isNotLegalAge) {
+    if (legalAgeValue != "" && isNotLegalAge) {
         errorValidation(input, `Prohibited minors`);
         console.log("Prohibited minors");
 
@@ -51,17 +38,19 @@ export const validateBirth = (input: HTMLInputElement, inputValue: string, legal
 
 const isValidDate = (day: string, month: string, yearBirth: number) => {
     const validDay = moment(`${yearBirth}/${month}/${day}`).format("l");
+
     return validDay === "Invalid date" ? false : true;
 };
 
 // Validation of the year
 const isValidYear = (yearBirth: number) => {
-    const lowestValidYear = 1892;
+    const lowestValidYear = Number(moment().format("YYYY")) - 130;
     return (yearBirth) >= lowestValidYear ? true : false;
 };
 
 // Validation of the future date
 const isFutureDate = (inputValue: string) => {
+    console.log(inputValue);
     return moment(inputValue).isAfter(moment());
 };
 
@@ -78,4 +67,18 @@ const successValidation = (input: HTMLInputElement) => {
     // small.style.display = "none";
     input.style.border = "1px solid #198754";
 };
+
+
+const  getAge = (dateString: string) => {
+    const today = new Date();
+    const birthDate = new Date(dateString);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    
+    return age;
+}
 
