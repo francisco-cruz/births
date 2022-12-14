@@ -1,48 +1,45 @@
 import moment from "moment";
 
 
-export const validateBirth = (input:HTMLInputElement, inputValue:String, legalAgeValue:Number ) => {
-  const yaerBirth = moment(inputValue).format("YYYY");
-  const age = moment().format("YYYY") - yaerBirth;
-
-    const isNotLegalAge = age < legalAgeValue;
+export const validateBirth = (input: HTMLInputElement, inputValue: string, legalAgeValue: string) => {
     const day = moment(inputValue).format("DD");
     const month = moment(inputValue).format("MM");
-    const valideYaer = isValideYaer(yaerBirth);
-    const validaeDate = isValideDate(day, month, yaerBirth);
+    const yearBirth = Number(moment(inputValue).format("YYYYMMDD"));
+    const yearCurrent =  Number(moment().format("YYYYMMDD"));
+    const diffTime = Math.abs(yearBirth - yearCurrent);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    console.log(diffTime + " milliseconds");
+    console.log(diffDays + " days");
+
+    const age = moment(`${inputValue}`, "YYYYMMDD").fromNow();
+    const isNotLegalAge = Number(age) < Number(legalAgeValue);
+    console.log(inputValue);
+
+    console.log(age);
+    console.log(isNotLegalAge);
 
 
-    // Validation of Yaer
-    const isValideYaer = (yaerBirth) => {
-        const lowestValidYear = 1892;
-        return yaerBirth >= lowestValidYear ? true : false;
-    };
+    const validYear = Boolean(isValidYear(yearBirth));
+    const validDate = Boolean(isValidDate(day, month, yearBirth));
 
-
-    // Validation of Date
-    const isValideDate = (day, month, yaer) => {
-        const valideDay = moment(`${yaer}/${month}/${day}`).format("l");
-        return valideDay === "Invalid date" ? false : true;
-    };
-
-
-    // Validation of the future date
-    const isFutureDate = (date) => {
-        return moment(date).isAfter(moment());
-    };
 
     if (inputValue == "") {
         errorValidation(input, "Fill in this field.");
+        console.log("Fill in this field");
+
         return false;
     }
 
-    if (isFutureDate(inputValue) || !validaeDate || !valideYaer) {
+    if (isFutureDate(inputValue) || !validDate || !validYear) {
         errorValidation(input, "Invalid date.");
+        console.log("Invalid date.");
         return false;
     }
 
-    if (ageLegalValue !== "" && isNotLegalAge) {
+    if (legalAgeValue !== "" && isNotLegalAge) {
         errorValidation(input, `Prohibited minors`);
+        console.log("Prohibited minors");
+
         return false;
     }
 
@@ -50,16 +47,35 @@ export const validateBirth = (input:HTMLInputElement, inputValue:String, legalAg
     return true;
 };
 
+// Validation of the date
 
-const errorValidation = (input, message) => {
-    input.style.border = "1px solid #dc3545";
-    small.style.display = "block";
-    small.innerText = message;
+const isValidDate = (day: string, month: string, yearBirth: number) => {
+    const validDay = moment(`${yearBirth}/${month}/${day}`).format("l");
+    return validDay === "Invalid date" ? false : true;
+};
+
+// Validation of the year
+const isValidYear = (yearBirth: number) => {
+    const lowestValidYear = 1892;
+    return (yearBirth) >= lowestValidYear ? true : false;
+};
+
+// Validation of the future date
+const isFutureDate = (inputValue: string) => {
+    return moment(inputValue).isAfter(moment());
 };
 
 
-const successValidation = (input) => {
-    small.style.display = "none";
+
+const errorValidation = (input: HTMLInputElement, message: string) => {
+    input.style.border = "1px solid #dc3545";
+    // small.style.display = "block";
+    // small.innerText = message;
+};
+
+
+const successValidation = (input: HTMLInputElement) => {
+    // small.style.display = "none";
     input.style.border = "1px solid #198754";
 };
 

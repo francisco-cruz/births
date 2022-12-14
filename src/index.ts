@@ -1,3 +1,3 @@
 export { FormBirth } from "./FormBirth"
 export { InputBirth } from "./InputBirth"
-export {validateBirth } from "./utils"
+export { validateBirth } from "./utils"
