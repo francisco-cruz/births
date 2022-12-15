@@ -12,17 +12,19 @@ interface InputBirthProps {
   legalAge: string | null
 }
 
-export default function InputBirth({ size, borderRadius, disabled, legalAge, ...props }: InputBirthProps) {
+export function InputBirth({ size, borderRadius, disabled, legalAge, ...props }: InputBirthProps) {
   const init = () => {
     const input = document.getElementById("input-birth") as HTMLInputElement;
     const formControl = input.parentElement!;
     const small = formControl.getElementsByTagName("h4")[0] as HTMLHeadElement;
-    const ageLegalValue = parseInt(input.getAttribute("legal-age")!);
+    const ageLegalValue: string = input.getAttribute("legal-age")!;
     const form = formControl.parentElement as HTMLFormElement;
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       validateBirth(input, input.value, ageLegalValue)
+      console.log(ageLegalValue);
+      
     });
 
   }
