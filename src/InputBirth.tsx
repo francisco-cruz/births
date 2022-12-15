@@ -23,8 +23,6 @@ export function InputBirth({ size, borderRadius, disabled, legalAge, ...props }:
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       validateBirth(input, input.value, ageLegalValue)
-      console.log(ageLegalValue);
-      
     });
 
   }

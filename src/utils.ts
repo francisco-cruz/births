@@ -5,12 +5,8 @@ export const validateBirth = (input: HTMLInputElement, inputValue: string, legal
     const month: string = moment(inputValue).format("MM");
     const yearBirth: number = Number(moment(inputValue).format("YYYY"));
     const age: number = getAge(inputValue)
-    console.log(age, "idade");
-    
     const isNotLegalAge: boolean = age < Number(legalAgeValue);
-    console.log("é menor d eidade?", isNotLegalAge);
-    
-
+  
     const validYear: boolean = isValidYear(yearBirth);
     const validDate: boolean = isValidDate(day, month, yearBirth);
 

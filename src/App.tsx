@@ -7,7 +7,7 @@ export default function App() {
   return (
     <div className="App">
       <FormBirth>
-        < InputBirth legalAge="18" />
+        < InputBirth size={""} borderRadius={"1"} legalAge="18" />
         <button type="submit"> submit</button>
       </FormBirth>
     </div>

@@ -19,15 +19,15 @@ export const Input = styled("input", {
   variants: {
     size: {
       small: {
-        height: "$5",
+        height: "$6",
         fontSize: "$2",
       },
       default: {
-        height: "$6",
+        height: "$7",
         fontSize: "$3",
       },
       large: {
-        height: "$7",
+        height: "$10",
         fontSize: "$4",
       },
     },
